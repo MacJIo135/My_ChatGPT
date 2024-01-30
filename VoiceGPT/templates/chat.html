@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceGPT</title>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-messages">
+            
+            {% for message in messages reversed %}
+                {% if message.user_message %}
+                    <div class="message user-message">{{ message.user_message }}</div>
+                {% endif %}
+                {% if message.model_response %}
+                    <div class="message model-message">{{ message.model_response }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div id="status_waiting" style="display: block; color: white;">   </div>
+    <div id="message-input" style="text-align: center;">
+        <form id="message-form" method="post" enctype="application/x-www-form-urlencoded">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="Ваше повідомлення">
+            <button type="submit">Відправити</button>
+        </form>
+        <select id="select_dialect">
+            <option value="en-US">English (US)</option>
+            <option value="uk-UA">Українська (UA)</option>
+            <option value="ru-RU">Русский (RU)</option>
+        </select>
+        <button id="startRecording">🎙️</button>
+        <button id="stopRecording" style="display: none;">🔴Stop</button>
+    </div>
+    <div id="status" style="display: none;">   </div>
+    
+    <script src="{% static 'js/chat.js' %}"></script>
+</body>
+</html>
